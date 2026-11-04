@@ -13,7 +13,7 @@ def get_attr():
     parser.add_argument('-ckpt', '--editor_ckpt_path', type=str, default = None, help='Editor checkpoint path.')
     parser.add_argument('-dn', '--data_name', type=str, default = "AKE", help = 'Evaluating dataset, including EVQA, EIC.')
     parser.add_argument('-dsn', '--data_sample_n', type=int, default = None, help = 'Sample number for evaluation.')
-    parser.add_argument('-dp', '--dataset_path', type=str, default = None)
+    parser.add_argument('-dp', '--dataset_path', type=str, required=True)
     parser.add_argument('-img_root', '--img_root_dir', type=str, default=4, help = 'Buffer size of data generator.')
     parser.add_argument('-t_loc_image', '--t_loc_image_dir', type=str, default=None, help = 'Optional root directory for text-locality image data.')
     parser.add_argument('-dataset_type', '--dataset_type', type=str, default=4, help = 'Buffer size of data generator.')

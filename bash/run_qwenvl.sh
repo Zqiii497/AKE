@@ -61,8 +61,8 @@ OMP_NUM_THREADS=8 python multimodal_edit.py \
 #     --model "qwen-vl" \
 #     --config_path "hparams/TRAINING/MEND/qwenvl.yaml" \
 #     --method "MEND" \
-#     --train_json_path "data/supple_dataset/qwen/train_dataset.json" \
-#     --eval_json_path "data/supple_dataset/qwen/eval_dataset.json" \
+#     --train_json_path "data/supple_dataset/qwenvl/train_dataset.json" \
+#     --eval_json_path "data/supple_dataset/qwenvl/eval_dataset.json" \
 #     --mode "train" \
 #     --dataset_type "SuppleDataset" \
 #     --image "data/supple_dataset/" \
@@ -75,8 +75,8 @@ OMP_NUM_THREADS=8 python multimodal_edit.py \
 #     --model "qwen-vl" \
 #     --config_path "hparams/TRAINING/SERAC/qwenvl.yaml" \
 #     --method "SERAC" \
-#     --train_json_path "data/supple_dataset/qwen/train_dataset.json" \
-#     --eval_json_path "data/supple_dataset/qwen/eval_dataset.json" \
+#     --train_json_path "data/supple_dataset/qwenvl/train_dataset.json" \
+#     --eval_json_path "data/supple_dataset/qwenvl/eval_dataset.json" \
 #     --mode "train" \
 #     --dataset_type "SuppleDataset" \
 #     --image "data/supple_dataset/" \

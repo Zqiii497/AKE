@@ -22,9 +22,9 @@ The Qwen3-VL wrapper requires Transformers >= 4.57.0. The environment script dow
 
 The training commands in `run.sh` expect prepared CLEVR and supplementary datasets under `data/`. These data assets are not all tracked in this branch. Keep original dataset files, images, masks, archives, model checkpoints, and experiment outputs; they are not disposable caches.
 
-## Known source-file blocker
+## Dataset implementation
 
-The current branch contains imports from `dataset.vllm`, but the corresponding `dataset/vllm.py` source file is absent. A Python 3.10 bytecode file remains at `dataset/__pycache__/vllm.cpython-310.pyc`; it is preserved because it is the only remaining artifact associated with that missing module. A bytecode cache is not a reliable replacement for the original source. Recover the original `dataset/vllm.py` before expecting training or evaluation to run. Do not recreate it by guessing its dataset contracts.
+`dataset/vllm.py` is present and defines `BaseVLLMEditData`, the shared data container and image-loading implementation used by the AKE dataset adapters, VEAD editor, and evaluation code. Keep this source file intact; its request/generality/locality data contract is part of the experiment implementation.
 
 ## Entry points
 

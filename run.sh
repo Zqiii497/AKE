@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+# Run these examples from any working directory.
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 ################## Qwen3-VL ##################
 
 python vead_train.py \

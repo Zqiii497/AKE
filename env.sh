@@ -119,8 +119,7 @@ step_download_dataset() {
         log_warn "CLEVR数据集已存在，跳过解压"
     fi
     
-    # 清理压缩包
-    rm -f CLEVR_CoGenT_v1.0.zip
+    # Keep the original archive so the downloaded dataset source is preserved.
     
     cd ../..
     log_success "CLEVR 数据集准备完成"

@@ -1,45 +1,35 @@
-# VisEdit: VEAD and P-Track
+# AKE Visual Editing (VEAD)
 
-This branch contains the VEAD visual-language-model editing implementation and P-Track representation analysis. It is maintained independently from `main` and the `akedit` experiments.
+This branch contains the VEAD visual-language-model editing implementation, its training/evaluation entry points, and P-Track analysis code.
 
 ## Layout
 
-- `vead_train.py`, `vead_test.py`: VEAD training and evaluation entry points.
-- `editor/vllm_editors/vead/`: VEAD editor and adaptor.
+- `vead_train.py`, `vead_test.py`: VEAD training and testing entry points.
+- `editor/vllm_editors/vead/`: VEAD editor and adaptor implementation.
 - `editor/vllms_for_edit/`: BLIP-2, LLaVA, MiniGPT-4, and Qwen3-VL wrappers.
+- `dataset/`: dataset implementations and AKE dataset adapters.
 - `evaluation/`: editor evaluation and AKE metric aggregation.
-- `p_track/`: layer, attention, and MLP representation tracking.
-- `configs/`: VEAD and P-Track model configurations.
-- `dataset/`: dataset classes and prepared-data adapters.
+- `p_track/`: representation tracking utilities.
+- `configs/`: editor and model configurations.
 
-## Important source-file blocker
+## Environment and models
 
-The current branch imports `BaseVLLMEditData` from `dataset.vllm` in several modules, but `dataset/vllm.py` is absent from the branch. Only a Python 3.10 bytecode cache remains at `dataset/__pycache__/vllm.cpython-310.pyc`. That cache is not a reliable substitute for the missing source and is intentionally retained as a recovery artifact.
+Use a dedicated Python environment for this branch. Install the dependencies in `requirements.txt`, then install a PyTorch build compatible with the host CUDA runtime. The exact environment has not been validated end-to-end across all model families.
 
-**Restore the original `dataset/vllm.py` before attempting to train or evaluate.** Do not replace it with a newly guessed implementation: its data representation and image-loading behavior are part of the experiment implementation.
+The Qwen3-VL wrapper requires Transformers >= 4.57.0. The environment script downloads Qwen3-VL-8B-Instruct into `huggingface_cache/Qwen3-VL-8B-Instruct`, matching `utils/GLOBAL.py`. Review `env.sh` before running it: it installs packages and downloads large datasets and model checkpoints.
 
-## Environment and model checkpoints
+## Data
 
-The environment script installs packages, downloads the CLEVR dataset, and downloads model checkpoints. Review the script before running it, and use an isolated environment. It assumes a Linux/CUDA setup and may require system package-manager privileges.
+The training commands in `run.sh` expect prepared CLEVR and supplementary datasets under `data/`. These data assets are not all tracked in this branch. Keep original dataset files, images, masks, archives, model checkpoints, and experiment outputs; they are not disposable caches.
 
-Model directories are resolved by `utils/GLOBAL.py` under `huggingface_cache/` by default. The Qwen3-VL configuration expects `huggingface_cache/Qwen3-VL-8B-Instruct`; BLIP-2 and LLaVA use their corresponding local directories. You can override these locations with the `AKE_MODEL_ROOT`, `AKE_QWENVL_PATH`, `AKE_BLIP2_PATH`, and `AKE_LLAVA_PATH` environment variables.
+## Known source-file blocker
 
-## Training examples
+The current branch contains imports from `dataset.vllm`, but the corresponding `dataset/vllm.py` source file is absent. A Python 3.10 bytecode file remains at `dataset/__pycache__/vllm.cpython-310.pyc`; it is preserved because it is the only remaining artifact associated with that missing module. A bytecode cache is not a reliable replacement for the original source. Recover the original `dataset/vllm.py` before expecting training or evaluation to run. Do not recreate it by guessing its dataset contracts.
 
-Run from the repository root. The supplied `run.sh` contains example commands for Qwen3-VL, BLIP-2, and LLaVA on the attribute and supplementary datasets. For attribute data, the localization image root is explicitly set to the CLEVR image directory; supplementary data uses its black reference image.
+## Entry points
 
-The example data paths under `data/` are external and are not included in this branch. Prepare the JSON files and image directories before running the examples.
+Example commands are maintained in `run.sh`. Check the dataset paths and model availability before launching them. The evaluation entry point is `evaluation/ake_runner.py`.
 
-## Evaluation
+## Reproducibility and scope
 
-- `vead_test.py` evaluates an editor on the selected dataset.
-- `evaluation/ake_runner.py` is an AKE-oriented evaluation entry point.
-- `evaluation/vllm_editor_eval.py` implements the shared evaluation procedure.
-
-The evaluation entry points have not been validated end to end. In particular, the missing `dataset/vllm.py` currently prevents normal imports.
-
-## Maintenance boundary
-
-Maintenance changes are limited to cache cleanup, path/launcher/documentation consistency, and clearly isolated command-line wiring. The VEAD algorithm, model architecture, adaptor, loss terms, training schedule, data transformations, and configuration hyperparameters are not intentionally changed.
-
-No GPU training or full end-to-end validation is implied by this README.
+The VEAD adaptor, model wrappers, training objectives, and P-Track implementation are research code. Cleanup must not alter algorithms, model structure, loss functions, training strategy, or hyperparameter defaults. This branch has received static maintenance only; no GPU training or end-to-end experiment is claimed.

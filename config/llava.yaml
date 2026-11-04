@@ -15,7 +15,7 @@ image_size: 336
 
 dataset_path: "dataset/dataset/llava/val2_dataset.json"
 image_direction_dataset_dir: "dataset/CLEVR_CoGenT_v1.0/images/"
-# image_direction_dataset_dir: "/root/autodl-tmp/mllm_ke/akedit/dataset/imagenet"
+# image_direction_dataset_dir: "dataset/imagenet"
 
 # Training related parameters
 lr: 0.0001

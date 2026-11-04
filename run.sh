@@ -126,6 +126,7 @@ download_hf_models() {
   download_model facebook/opt-6.7b "$HF_CACHE_DIR/opt-6.7b"
   download_model facebook/opt-1.3b "$HF_CACHE_DIR/opt-1.3b"
   download_model Qwen/Qwen3-VL-8B-Instruct "$HF_CACHE_DIR/Qwen3-VL"
+  download_model Qwen/Qwen3-8B "$HF_CACHE_DIR/Qwen3-8B"
   download_model lmsys/vicuna-7b-v1.5 "$HF_CACHE_DIR/vicuna-7b-v1.5"
   download_model openai/clip-vit-large-patch14-336 "$HF_CACHE_DIR/clip-vit-large-patch14-336"
 

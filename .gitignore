@@ -1,4 +1,15 @@
+# Local datasets, checkpoints and experiment outputs
 data/
-records/*
-eval_results/*
-huggingface_cache/*
+records/
+eval_results/
+huggingface_cache/
+
+# Python / Jupyter / editor caches
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+*.swp
+*.swo
+*.tmp
+*~

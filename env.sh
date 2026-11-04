@@ -189,7 +189,7 @@ step_download_models() {
     
     # 模型列表
     declare -A MODELS=(
-        ["Qwen/Qwen2-VL-7B-Instruct"]="huggingface_cache/Qwen2-VL"
+        ["Qwen/Qwen3-VL-8B-Instruct"]="huggingface_cache/Qwen3-VL-8B-Instruct"
         ["Salesforce/blip2-opt-6.7b"]="huggingface_cache/blip2-opt-6.7b"
         ["llava-hf/llava-1.5-7b-hf"]="huggingface_cache/llava-1.5-7b-hf"
     )

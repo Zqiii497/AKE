@@ -4,7 +4,7 @@
 ##### Qwen-vl #####
 #########################
 
-# pip install transformers==4.52
+# Qwen3-VL requires transformers>=4.57.0; repository pin: 4.57.6
 
 # OMP_NUM_THREADS=8 python multimodal_edit.py \
 #     --model "qwen-vl" \

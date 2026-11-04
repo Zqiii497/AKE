@@ -33,8 +33,12 @@ results/*
 *.safetensors
 *.ckpt
 
-# Logs and OS/editor files
+# Logs and OS/editor temporary files
 *.log
 .DS_Store
+*.swp
+*.swo
+*.tmp
+*~
 .idea/
 .vscode/

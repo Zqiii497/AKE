@@ -70,8 +70,13 @@ if __name__ == '__main__':
     ake_json = get_ake_json_path(cfg.data_root, cfg.model_name, cfg.split)
     # BLIP-2 needs leading space in targets; LLaVA not
     add_leading_space = ('blip' in cfg.model_name.lower())
+    dataset_model_name = (
+        'llava' if 'llava' in cfg.model_name.lower()
+        else 'blip2' if 'blip' in cfg.model_name.lower()
+        else 'qwenvl'
+    )
     eval_data = AKEVLLMEditData(
-        ake_json, cfg.img_root, cfg.img_root, full_model_name, cfg.data_sample_n,
+        ake_json, cfg.img_root, cfg.img_root, dataset_model_name, cfg.data_sample_n,
         add_leading_space_for_targets=add_leading_space
     )
 

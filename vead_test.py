@@ -15,7 +15,7 @@ def get_attr():
     parser.add_argument('-dsn', '--data_sample_n', type=int, default = None, help = 'Sample number for evaluation.')
     parser.add_argument('-dp', '--dataset_path', type=str, default = None)
     parser.add_argument('-img_root', '--img_root_dir', type=str, default=4, help = 'Buffer size of data generator.')
-    parser.add_argument('-t_loc_image', '--t_loc_image_dir', type=str, default=4, help = 'Buffer size of data generator.')
+    parser.add_argument('-t_loc_image', '--t_loc_image_dir', type=str, default=None, help = 'Optional root directory for text-locality image data.')
     parser.add_argument('-dataset_type', '--dataset_type', type=str, default=4, help = 'Buffer size of data generator.')
     
     args = parser.parse_args()
@@ -44,7 +44,8 @@ if __name__ == '__main__':
         from dataset.ake_supple import AKEVLLMEditData
     data_path = os.path.join(ROOT_PATH, cfg.dataset_path)
     img_root_dir = os.path.join(ROOT_PATH, cfg.img_root_dir)
-    t_loc_image_dir = os.path.join(ROOT_PATH, cfg.t_loc_image_dir)
+    t_loc_image_dir = (os.path.join(ROOT_PATH, cfg.t_loc_image_dir)
+                       if cfg.t_loc_image_dir else None)
     eval_data = AKEVLLMEditData(data_path, img_root_dir, t_loc_image_dir, cfg.edit_model_name, cfg.data_sample_n)
    
     # evaluate

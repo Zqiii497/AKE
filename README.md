@@ -28,7 +28,7 @@ python -m pip install -r requirements.txt
 
 The repository also contains vendored model components with their own dependency metadata. In particular, the mPLUG-Owl2 component may require versions that differ from the top-level pins. Do not install every nested component's requirements into one environment blindly; create a separate environment or resolve and test a compatible set for the selected experiment.
 
-The current top-level requirements and the model-specific metadata have not yet been reconciled. A tested lock file should only be added after validating the target Python/CUDA platform.
+The top-level requirements pin Transformers 4.57.6 and Tokenizers 0.22.1 to meet the Qwen3-VL minimum Transformers requirement. This dependency set has not yet been validated end-to-end across every model family or Python/CUDA platform; use an isolated environment for Qwen3-VL experiments.
 
 ## Setup helper
 
@@ -96,7 +96,8 @@ Do not commit downloaded model weights, private datasets, credentials, or experi
 
 ## Current maintenance notes
 
-- The top-level dependency pins and nested model dependency metadata need compatibility testing.
+- Qwen3-VL uses the `Qwen/Qwen3-VL-8B-Instruct` checkpoint; SERAC configurations additionally reference `Qwen/Qwen3-8B` as the small model.
+- The top-level dependency pins meet the Qwen3-VL Transformers minimum, but compatibility with every nested model component still needs testing.
 - The setup script intentionally separates installation and large downloads into explicit options to avoid accidental, expensive runs.
 - Jupyter checkpoint folders and Python cache files are ignored by Git; existing tracked checkpoint copies should be reviewed before deletion.
 - Algorithm behavior has not been changed as part of this repository-structure cleanup.

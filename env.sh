@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Resolve all relative paths from this script's directory.
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 # ============================================================================
 # 颜色输出设置
 # ============================================================================

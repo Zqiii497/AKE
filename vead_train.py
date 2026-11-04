@@ -46,7 +46,8 @@ if __name__ == '__main__':
         from dataset.ake_supple import AKEVLLMEditData
     data_path = os.path.join(ROOT_PATH, cfg.dataset_path)
     img_root_dir = os.path.join(ROOT_PATH, cfg.img_root_dir)
-    t_loc_image  = os.path.join(ROOT_PATH, cfg.t_loc_image )
+    t_loc_image = (os.path.join(ROOT_PATH, cfg.t_loc_image)
+                   if cfg.t_loc_image else None)
     
     train_data = AKEVLLMEditData(data_path, img_root_dir, t_loc_image, cfg.edit_model_name, cfg.data_n)
 

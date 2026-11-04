@@ -11,6 +11,7 @@ python vead_train.py \
 -dvc cuda:0 \
 -dp data/clevr_dataset/qwenvl/train_dataset.json \
 -img_root data/clevr_dataset/CLEVR_CoGenT_v1.0/images \
+--t_loc_image data/clevr_dataset/CLEVR_CoGenT_v1.0/images \
 -dataset_type AttributeDataset \
 
 python vead_train.py \
@@ -31,6 +32,7 @@ python vead_train.py \
 -dvc cuda:0 \
 -dp data/clevr_dataset/blip2/train_dataset.json \
 -img_root data/clevr_dataset/CLEVR_CoGenT_v1.0/images \
+--t_loc_image data/clevr_dataset/CLEVR_CoGenT_v1.0/images \
 -dataset_type AttributeDataset \
 
 python vead_train.py \
@@ -51,6 +53,7 @@ python vead_train.py \
 -dvc cuda:0 \
 -dp data/clevr_dataset/llava/train_dataset.json \
 -img_root data/clevr_dataset/CLEVR_CoGenT_v1.0/images \
+--t_loc_image data/clevr_dataset/CLEVR_CoGenT_v1.0/images \
 -dataset_type AttributeDataset \
 
 python vead_train.py \

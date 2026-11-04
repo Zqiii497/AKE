@@ -131,23 +131,23 @@ step_download_dataset() {
 # ============================================================================
 step_download_kaggle() {
     log_step "[3/4] 下载 Kaggle 数据集"
-    
+
+    if [ ! -f "kaggle.py" ]; then
+        log_warn "kaggle.py 不在当前分支中，跳过可选 Kaggle 下载步骤"
+        return 0
+    fi
+
     log_info "安装 KaggleHub..."
     pip install -U kagglehub -q
-    
-    if [ ! -f "kaggle.py" ]; then
-        log_error "kaggle.py 文件不存在"
-        exit 1
-    fi
-    
+
     log_info "运行 kaggle.py 下载数据集..."
     python kaggle.py
-    
+
     if [ $? -ne 0 ]; then
         log_error "Kaggle 数据集下载失败"
         exit 1
     fi
-    
+
     log_success "Kaggle 数据集准备完成"
 }
 

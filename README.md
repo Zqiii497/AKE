@@ -1,21 +1,41 @@
-# AKE
+# Multimodal Knowledge Editing: EasyEdit Reproduction and Benchmark Experiments
 
-AKE is a research codebase for multimodal knowledge editing. The repository includes the EasyEdit-based editing framework, multimodal datasets/trainers, and experiment entry points.
+This repository's `main` branch is the **EasyEdit-based reproduction and benchmarking track** of this project. It is intended to reproduce and run multimodal knowledge-editing experiments using the EasyEdit framework and related multimodal editing setup. It is **not** the original EasyEdit repository, and it is **not** the implementation of the project's own AKE method.
 
-> **Status:** Research code. Model/data download workflows and environment combinations have not yet been validated end-to-end on a clean machine. Treat the commands below as setup guidance, not a guarantee that every experiment is reproducible without additional configuration.
+## How this repository is organized
 
-## Repository layout
+This GitHub repository contains three research tracks that must be distinguished:
 
-- `easyeditor/`: editing algorithms, editors, datasets, trainers, evaluation utilities, and model-specific code.
-- `multimodal_edit.py`: command-line entry point for multimodal FT, MEND, and SERAC experiments.
-- `requirements.txt`: top-level Python dependencies.
-- `run.sh`: opt-in setup/download helper. It does not install or download anything unless an explicit option is supplied.
-- `data/`: local datasets and dataset preparation assets. Large/private data are not expected to be committed.
-- `results/`: local experiment outputs and downloaded editing checkpoints.
+| Branch | Role | Method provenance |
+|---|---|---|
+| `main` | EasyEdit-based reproduction and benchmark experiments for multimodal knowledge editing | Based on the upstream EasyEdit framework and its multimodal editing implementation; this branch contains project-specific reproduction/configuration work |
+| `akedit` | Implementation of **our own AKE method** | Method developed in this project; do not attribute it to EasyEdit or VisEdit |
+| `visedit` | Experiments based on the published VisEdit method | Derived from the original VisEdit project and may contain local modifications for our experiments |
 
-## Environment
+The branches serve different research purposes. Their implementations, experimental settings, and citations are not interchangeable.
 
-Use an isolated Python environment. The exact Python, PyTorch, CUDA, Transformers, and model-specific dependency combination must match the experiment being run.
+## Main branch: EasyEdit reproduction
+
+The `easyeditor/` directory contains the EasyEdit-based editing framework and multimodal editing components. The project-specific entry point is `multimodal_edit.py`, with configuration files under `hparams/` and setup/download helpers in `run.sh`.
+
+This branch is used to reproduce and benchmark selected multimodal editing methods and model combinations in a controlled experimental setup. Repository-specific scripts, configuration changes, model-path adjustments, and dependency pins should be understood as part of this reproduction project, rather than as changes to the official EasyEdit release.
+
+### Upstream projects and papers
+
+- **EasyEdit framework:** [Official repository](https://github.com/zjunlp/EasyEdit)  
+  Wang et al., “EasyEdit: An Easy-to-use Knowledge Editing Framework for Large Language Models,” ACL 2024 System Demonstrations. [Paper](https://aclanthology.org/2024.acl-demos.9/).
+- **Multimodal editing benchmark/background:** Cheng et al., “Can We Edit Multimodal Large Language Models?”, EMNLP 2023. [Paper](https://aclanthology.org/2023.emnlp-main.856/). The EasyEdit project provides its multimodal editor in connection with this line of work; see the [official multimodal editing example](https://github.com/zjunlp/EasyEdit/blob/main/examples/MultimodalEdit.md).
+
+Please cite the relevant upstream framework and research papers when using or building on this branch. Also cite any individual editing method or dataset paper corresponding to the experiment being reported.
+
+## Other research tracks
+
+- **`akedit`:** our own AKE method. See the [AKE method README](https://github.com/Zqiii497/AKE/tree/akedit). This is a separate method implementation, not an EasyEdit baseline.
+- **`visedit`:** experiments based on the third-party VisEdit method. See the [VisEdit experiment README](https://github.com/Zqiii497/AKE/tree/visedit) and the original [VisEdit repository](https://github.com/qizhou000/VisEdit).
+
+## Environment and reproducibility
+
+Use an isolated environment for each model family where necessary. The top-level requirements currently pin Transformers 4.57.6 and Tokenizers 0.22.1 to meet the Qwen3-VL Transformers requirement, but this combination has not been validated end-to-end across every model family or Python/CUDA platform. In particular, nested model components may have conflicting dependency requirements.
 
 Install the top-level dependencies:
 
@@ -26,78 +46,18 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-The repository also contains vendored model components with their own dependency metadata. In particular, the mPLUG-Owl2 component may require versions that differ from the top-level pins. Do not install every nested component's requirements into one environment blindly; create a separate environment or resolve and test a compatible set for the selected experiment.
-
-The top-level requirements pin Transformers 4.57.6 and Tokenizers 0.22.1 to meet the Qwen3-VL minimum Transformers requirement. This dependency set has not yet been validated end-to-end across every model family or Python/CUDA platform; use an isolated environment for Qwen3-VL experiments.
-
-## Setup helper
-
-Running the script without arguments only prints help:
+The setup helper is opt-in; running it without arguments only prints help:
 
 ```bash
 bash run.sh --help
 ```
 
-Each operation is explicit:
+Review the selected model configuration, dataset paths, model licenses, credentials, and storage requirements before downloading or launching experiments. The presence of a command or configuration in this repository does not imply that the corresponding experiment has been successfully reproduced.
 
-```bash
-# Install top-level Python dependencies
-bash run.sh --install-python-deps
+## Scope and attribution
 
-# Optional: install the repository's pinned PyTorch 2.1.2 / CUDA 12.1 stack
-bash run.sh --install-pytorch
-
-# Optional: download CLEVR and run data/kaggle.py if that local file exists
-bash run.sh --download-datasets
-
-# Optional: download Hugging Face models and BLIP2 weights
-bash run.sh --download-hf-models
-
-# Optional: download MEND/SERAC checkpoints from ModelScope
-bash run.sh --download-editor-checkpoints
-```
-
-Before downloading, check available disk space, model/data licenses, credentials, and network access. Install `aria2c` and `unzip` yourself for dataset/model downloads. Kaggle credentials and the optional `data/kaggle.py` preparation script are local setup and are not included in this repository.
-
-The helper supports `PYTHON_BIN`, `PIP_BIN`, `HF_ENDPOINT`, `HF_CACHE_DIR`, and `MODEL_OUTPUT_DIR` environment overrides.
-
-## Running multimodal experiments
-
-The entry point exposes the following required arguments:
-
-- `--model`: `llava`, `blip2`, or `qwen-vl`
-- `--method`: `MEND`, `SERAC`, `FT-L`, or `FT-V`
-- `--mode`: `train` or `eval`
-- `--config_path`: hyperparameter configuration
-- `--train_json_path` and `--eval_json_path`: dataset JSON paths
-- `--dataset_type`: `AttributeDataset` or `SuppleDataset`
-- `--image` and `--device`: required by the current argument parser
-
-Example shape (replace paths and device with values valid for your environment):
-
-```bash
-python multimodal_edit.py \
-  --model llava \
-  --method MEND \
-  --mode train \
-  --config_path path/to/config.yaml \
-  --train_json_path path/to/train.json \
-  --eval_json_path path/to/eval.json \
-  --dataset_type AttributeDataset \
-  --image path/to/image \
-  --device 0
-```
-
-Check the selected algorithm's hyperparameter file and dataset implementation before launching a long run. Some algorithms have additional checkpoint or model-specific requirements.
-
-## Data, model weights, and outputs
-
-Do not commit downloaded model weights, private datasets, credentials, or experiment outputs. Keep reproducibility metadata (configuration, command line, seed, package versions, and relevant dataset/model identifiers) in lightweight text files alongside experiment results.
-
-## Current maintenance notes
-
-- Qwen3-VL uses the `Qwen/Qwen3-VL-8B-Instruct` checkpoint; SERAC configurations additionally reference `Qwen/Qwen3-8B` as the small model.
-- The top-level dependency pins meet the Qwen3-VL Transformers minimum, but compatibility with every nested model component still needs testing.
-- The setup script intentionally separates installation and large downloads into explicit options to avoid accidental, expensive runs.
-- Jupyter checkpoint folders and Python cache files are ignored by Git; existing tracked checkpoint copies should be reviewed before deletion.
-- Algorithm behavior has not been changed as part of this repository-structure cleanup.
+- This branch is the project's EasyEdit-based reproduction/benchmark track; it should not be described as the official EasyEdit project.
+- The project's own AKE method is maintained separately on `akedit`.
+- VisEdit-derived experiments are maintained separately on `visedit` and must acknowledge the original VisEdit authors and source repository.
+- Preserve upstream licenses, copyright notices, and attribution when reusing or modifying third-party code.
+- Report local modifications and experimental settings accurately. Do not claim full reproduction or end-to-end validation unless it has been performed.
